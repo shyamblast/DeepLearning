@@ -1,0 +1,5 @@
+FROM tensorflow/tensorflow:1.12.0-gpu-py3
+
+# Fix the bug in estimator.py
+RUN tf_loc=`pip3 show tensorflow-gpu | grep Location | sed 's/^Location: \(.*\)/\1/'` && \
+    sed -i -e 's/self\._distribution\.unwrap/self\._train_distribution\.unwrap/g' $tf_loc/tensorflow/python/estimator/estimator.py
